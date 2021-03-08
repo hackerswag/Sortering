@@ -13,9 +13,9 @@ namespace BubbleSort
         {
             for (int i=0; i<mylist.Count; i++) //räknar antal genomgångar
             {
-                for(int j = 0; j < mylist.Count-1; j++)//gå igenom listan
+                for(int j = 0; j < mylist.Count-1; j++) //gå igenom listan
                 {
-                    if (mylist[j] > mylist[j + 1])
+                    if (mylist[j] > mylist[j + 1]) //Byter plats på element
                     {
                         int temp = mylist[j];
                         mylist[j] = mylist[j + 1];
@@ -26,29 +26,29 @@ namespace BubbleSort
         }
         static void SelectionSort(List<int> mylist)
         {
-            int smallest, temp;
+            int smallest, temp; //temporär variabel
             for (int i = 0; i < mylist.Count - 1; i++)
             {
                 smallest = i;
-                for (int j = i+1; j < mylist.Count; j++)
+                for (int j = i+1; j < mylist.Count; j++) //hitta minsta talet i osorterad lista
                 {
                     if (mylist[j] < mylist[smallest])
                     {
                         smallest = j;
                     }
                 }
-                temp = mylist[smallest];
+                temp = mylist[smallest]; //byt plats på minsta tal med i
                 mylist[smallest] = mylist[i];
                 mylist[i] = temp;
             }
         }
         static void InsertionSort(List<int> mylist)
         {
-            for (int i =0; i < mylist.Count - 1; i++)
+            for (int i =0; i < mylist.Count - 1; i++)//Gå igenom lista
             {
-                for(int j = i + 1;j>0; j--)
+                for(int j = i + 1;j>0; j--) //gå igenom listan från i "nedåt"
                 {
-                    if (mylist[j-1] > mylist[j])
+                    if (mylist[j-1] > mylist[j]) //Jämför elementet med elementet innan, om elementet är mindre byt plats
                     {
                         int temp = mylist[j-1];
                         mylist[j - 1] = mylist[j];
@@ -189,57 +189,66 @@ namespace BubbleSort
             temp = b;
         }
 
-
-        static void Main(string[] args)
+        static void TestHel(int a)
         {
             List<int> tallista = new List<int>();
-            
-            //tallista.Add(1); tallista.Add(4); tallista.Add(6); tallista.Add(2);            tallista.Add(8); tallista.Add(11); tallista.Add(22); tallista.Add(3);            tallista.Add(6);
 
-            SkapaSlumpLista(tallista, 100000);
+            SkapaSlumpLista(tallista, a);
 
             //Skapa kopia av slumpad lista
             List<int> tallistacop1 = new List<int>(tallista);
             List<int> tallistacop2 = new List<int>(tallista);
             List<int> tallistacop3 = new List<int>(tallista);
-
-            int[] tallistamyarrayay = tallistacop3.ToArray();
-
-            int[] swag = { 1, 4, 6, 7, 2, 7, 1, 6 , 8, 9, 123, 123, 4561, 1236, 123, 232 };
-
+            List<int> tallistacop4 = new List<int>(tallista);
+            List<int> tallistacop5 = new List<int>(tallista);
+            int[] tallistamyarray = tallistacop3.ToArray();
+            int[] tallistamyarray1 = tallistacop4.ToArray();
+            
+            //skapa klockor
             Stopwatch bubblesort = new Stopwatch();
             Stopwatch insertion = new Stopwatch();
             Stopwatch selection = new Stopwatch();
             Stopwatch merges = new Stopwatch();
+            Stopwatch qs = new Stopwatch();
+            Stopwatch df = new Stopwatch();
 
 
             bubblesort.Start();
-            //BubbleSort(tallista);           
+            BubbleSort(tallista);           
             bubblesort.Stop();
 
             insertion.Start();
-            //InsertionSort(tallistacop1);
+            InsertionSort(tallistacop1);
             insertion.Stop();
 
             selection.Start();
-            //SelectionSort(tallistacop2);
+            SelectionSort(tallistacop2);
             selection.Stop();
 
             merges.Start();
-            MergeSort(swag, 0, swag.Length - 1);
+            MergeSort(tallistamyarray, 0, tallistamyarray.Length - 1);
             merges.Stop();
+
+            qs.Start();
+            QuickSort(tallistamyarray1, 0, tallistamyarray1.Length - 1);
+            qs.Stop();
+
+            df.Start();
+            tallistacop5.Sort();
+            df.Stop();
 
             Console.WriteLine("Bubblesort: " + bubblesort.Elapsed);
             Console.WriteLine("InsertionSort: " + insertion.Elapsed);
             Console.WriteLine("SelectionSort: " + selection.Elapsed);
-            Console.WriteLine("MergeSort: + " + merges.Elapsed);
+            Console.WriteLine("MergeSort: + " + merges.Elapsed + "  Millisekunder: " + merges.ElapsedMilliseconds);
+            Console.WriteLine("QuickSort: + " + qs.Elapsed + "  Millisekunder: " + qs.ElapsedMilliseconds);
+            Console.WriteLine("Inbyggd: " + df.Elapsed + "  Millisekunder: " + df.ElapsedMilliseconds);
 
+        }
 
-            TestArray(swag);
-
-            //Test(tallista);
-;
-            //Console.WriteLine("Sorterad " + swag.Elapsed);
+        static void Main(string[] args)
+        {
+            TestHel(80000);
             Console.ReadLine();
         }
     }
