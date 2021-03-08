@@ -182,12 +182,7 @@ namespace BubbleSort
 
 
         }
-        static void Swap(int a, int b)
-        {
-            int temp = a;
-            a = b;
-            temp = b;
-        }
+
 
         static void TestHel(int a)
         {
